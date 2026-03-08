@@ -7,7 +7,7 @@
     <!-- favicon -->
     <link rel="shortcut icon" href="./myAssets/issue-icon.png" type="image/x-icon">
     <!-- link css -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./styles/loginStyle.css">
     <!-- tailwind & daisyUI -cdn -->
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
@@ -18,13 +18,41 @@
     <!-- font awsome -cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body>
-    <h1 class="text-4xl font-bold">Hello World!</h1>
+<body class="bg-[#F8FAFC] h-screen flex justify-center">
+    <section class="lg:rounded-lg lg:shadow px-0 lg:my-12 lg:px-6 lg:bg-white">
+       <div>
+        <div class="flex justify-center py-6">
+            <img src="./assets/github-logo.png" alt="logo">
+        </div>
+        <h3 class="text-center text-2xl font-semibold">GitHub Issues Tracker</h3>
+        <p class="text-center text-[#64748B]">Sign in to manage your issues</p>
+       </div>
+       <!-- password field -->
+       <div class="login-section mt-2">
+        <form action="">
+            <fieldset class="fieldset bg-[#F8FAFC] lg:bg-white rounded-box w-screens lg:w-md p-3">
+            <label class="label text-black text-base font-medium">Username</label>
+            <input type="text" class="input w-auto rounded-lg" placeholder="Enter Username" />
+                <p class="mb-2 text-[#4A00FF]">Default: admin</p>
+            <label class="label text-black text-base font-medium">Password</label>
+            <input type="password" class="input w-auto rounded-lg" placeholder="Enter Password" />
+                <p class="text-[#4A00FF]">Default: admin123</p>
+            <button class="btn mt-4 w-auto rounded-lg bg-[#4A00FF] text-white">Sign In</button>
+            </fieldset>
+        </form>
+       </div>
+       <!-- divider??? -->
+        <p class="divider">OR</p>
+        <p class="text-center text-[#64748B] text-sm">Demo Credentials:</p>
+       <div class="bg-[#F8FAFC] rounded-lg h-24 mt-2 flex items-center justify-center flex-col">
+        <p class="text-center"><span class="font-semibold">Username:</span> admin</p>
+        <p class="text-center"><span class="font-semibold">Password:</span> admin123</p>
+       </div>
+    </section>
 
 
 
-    
     <!-- Js connection -->
-    <script src="./script.js"></script>
+    <script src="./scripts/loginScript.js"></script>
 </body>
 </html>
