@@ -1,1 +1,446 @@
 console.log("Js connected!")
+
+
+
+let ississueCounter = document.getElementById('issueCounter')
+ississueCounter.innerText = "0"
+
+let button = document.getElementsByClassName('button')
+
+let cardContainer = document.getElementById('card-container')
+
+
+let apiUrlAll = "https://phi-lab-server.vercel.app/api/v1/lab/issues"
+
+function loadAllIssues ()  {
+fetch(apiUrlAll)
+    .then((response) => response.json())
+    .then((dataRaw) => {
+        //loop!
+        for(let i=0; i<dataRaw.data.length; i++){
+        //id no
+        let cardId = dataRaw.data[i].id
+        console.log(cardId)
+        // title
+        let cardTitle = dataRaw.data[i].title       //text
+        console.log(cardTitle)
+        // description
+        let cardDes = dataRaw.data[i].description      //text
+        console.log(cardDes)
+        // status
+        let cardStatus = dataRaw.data[i].status     //open or close text
+        let topColor = ""
+        let statusImg = ""
+        if(cardStatus == "open"){
+            topColor = "shadow-lg rounded-md border-t-5 border-[#00A96E] p-4"
+            statusImg = "./assets/Open-Status.png"
+        }
+        else if (cardStatus == "closed"){
+            topColor = "shadow-lg rounded-md border-t-5 border-[#A855F7] p-4"
+            statusImg = "./assets/Closed- Status .png"
+        }
+        // priority
+        let cardPriority = dataRaw.data[i].priority     //high or low or medium text
+        let priorityClass = ""
+        if(cardPriority == "high"){
+            priorityClass = "text-[#EF4444] bg-[#FEECEC] px-4 rounded-xl"
+            console.log(priorityClass)
+        }
+        else if(cardPriority == "medium"){
+            priorityClass = "text-[#F59E0B] bg-[#FFF6D1] px-4 rounded-xl"
+        }
+        else if(cardPriority == "low"){
+            priorityClass = "text-[#9CA3AF] bg-[#EEEFF2] px-4 rounded-xl"
+        }
+
+        // !! labels !!array
+        let labelText1 = ""
+        let labelStyle1 = ""
+        let labelArtClass1 = ""
+        let labelArtStyle1 = ""
+
+        let labelText2 = ""
+        let labelStyle2 = ""
+        let labelArtClass2 = ""
+        let labelArtStyle2 = ""
+
+        let labelText3 = ""
+        let labelStyle3 = ""
+        let labelArtClass3 = ""
+        let labelArtStyle3 = ""
+
+        let cardLabels = () => {
+            for(let label of dataRaw.data[i].labels){
+                if(label == "bug"){         //for BUG
+                    labelText1 = "BUG"
+                    labelStyle1 = "text-[#EF4444] font-semibold bg-[#FEECEC] px-3 rounded-2xl border-2 border-[#FECACA]"
+                    labelArtClass1 = "fa-solid fa-bug"
+                    labelArtStyle1 = "color: #ef4444;"
+                }
+                else if(label == "help wanted") {       //for help wanted
+                    labelText2 = "HELP WANTED"
+                    labelStyle2 = "text-[#D97706] font-semibold bg-[#FFF8DB] px-3 rounded-2xl border-2 border-[#FDE68A]"
+                    labelArtClass2 = "fa-solid fa-life-ring"
+                    labelArtStyle2 = "color: #d97706;"
+                }
+                else if (label == "enhancement") {      //for enhancement
+                    labelText3 = "ENHANCEMENT"
+                    labelStyle3 = "text-[#00A96E] font-semibold bg-[#DEFCE8] px-3 rounded-2xl border-2 border-[#BBF7D0]"
+                    labelArtClass3 = "fa-solid fa-wand-sparkles"
+                    labelArtStyle3 = "color: #00a96e;"
+                } 
+            }
+        }
+        cardLabels() // returns some label
+
+        //author
+        let cardAuthor = dataRaw.data[i].author     //text
+        console.log(cardAuthor)
+        //Created at
+        let cardDate = dataRaw.data[i].createdAt
+        console.log(cardDate)
+
+        //Card Creation!
+        let cardDiv = document.createElement('div')
+        //card Editing!
+        cardDiv.innerHTML = `
+            <div class="${topColor}">
+            <div class="flex justify-between">
+                <img src="${statusImg}" alt="">
+                <p class="${priorityClass}">${cardPriority.toUpperCase()}</p>
+            </div>
+            <div class="mt-3">
+                <h3 class="font-semibold mb-2 text-lg">${cardTitle}</h3>
+                <p class="text-[#64748B]">${cardDes}</p>
+            </div>
+            <div class="flex gap-3 mt-3">
+                <p class="${labelStyle1}"><i class="${labelArtClass1}" style="${labelArtStyle1}"></i> ${labelText1}</p>
+                <p class="${labelStyle2}"><i class="${labelArtClass2}" style="${labelArtStyle2}"></i> ${labelText2}</p>
+                <p class="${labelStyle3}"><i class="${labelArtClass3}" style="${labelArtStyle3}"></i> ${labelText3}</p>
+            </div>
+            <hr class="mt-4 border-gray-300 border mb-4">
+            <div>
+                <p class="text-[#64748B]">#${cardId} by ${cardAuthor}</p>
+                <p class="text-[#64748B]">${cardDate}</p>
+            </div>
+        </div>
+        `
+        //Card Append!!!
+        //s-1 select location to add
+        // let cardContainer = document.getElementById('card-container')
+        //s-2 append!
+        cardContainer.appendChild(cardDiv)
+        }
+    })
+}
+
+
+
+//show if all clicked
+        let allBtn = document.getElementById('all-btn')
+    allBtn.addEventListener("click",() => {
+        button[0].classList.remove("btn-primary")
+        button[1].classList.remove("btn-primary")
+        button[2].classList.remove("btn-primary")
+        cardContainer.innerHTML = " "
+        allBtn.classList.add("btn-primary")
+        ississueCounter.innerText = "50"
+        loadAllIssues()
+    })
+
+
+    function allShow () {
+        let allBtn = document.getElementById('all-btn')
+        allBtn.classList.add("btn-primary")
+        ississueCounter.innerText = "50"
+        loadAllIssues()
+    }
+
+//default:
+document.addEventListener("DOMContentLoaded", allShow)
+
+
+
+
+//Open Issues!!!!!!!!!!!!!!!!!!!!!!
+
+
+function loadOpenIssues ()  {
+fetch(apiUrlAll)
+    .then((response) => response.json())
+    .then((dataRaw) => {
+        //loop!
+        for(let i=0; i<dataRaw.data.length; i++){
+            if(dataRaw.data[i].status == "open"){
+                console.log("haha")
+        //id no
+        let cardId = dataRaw.data[i].id
+        console.log(cardId)
+        // title
+        let cardTitle = dataRaw.data[i].title       //text
+        console.log(cardTitle)
+        // description
+        let cardDes = dataRaw.data[i].description      //text
+        console.log(cardDes)
+        // status
+        let cardStatus = dataRaw.data[i].status     //open or close text
+        let topColor = ""
+        let statusImg = ""
+        if(cardStatus == "open"){
+            topColor = "shadow-lg rounded-md border-t-5 border-[#00A96E] p-4"
+            statusImg = "./assets/Open-Status.png"
+        }
+        else if (cardStatus == "closed"){
+            topColor = "shadow-lg rounded-md border-t-5 border-[#A855F7] p-4"
+            statusImg = "./assets/Closed- Status .png"
+        }
+        // priority
+        let cardPriority = dataRaw.data[i].priority     //high or low or medium text
+        let priorityClass = ""
+        if(cardPriority == "high"){
+            priorityClass = "text-[#EF4444] bg-[#FEECEC] px-4 rounded-xl"
+            console.log(priorityClass)
+        }
+        else if(cardPriority == "medium"){
+            priorityClass = "text-[#F59E0B] bg-[#FFF6D1] px-4 rounded-xl"
+        }
+        else if(cardPriority == "low"){
+            priorityClass = "text-[#9CA3AF] bg-[#EEEFF2] px-4 rounded-xl"
+        }
+
+        // !! labels !!array
+        let labelText1 = ""
+        let labelStyle1 = ""
+        let labelArtClass1 = ""
+        let labelArtStyle1 = ""
+
+        let labelText2 = ""
+        let labelStyle2 = ""
+        let labelArtClass2 = ""
+        let labelArtStyle2 = ""
+
+        let labelText3 = ""
+        let labelStyle3 = ""
+        let labelArtClass3 = ""
+        let labelArtStyle3 = ""
+
+        let cardLabels = () => {
+            for(let label of dataRaw.data[i].labels){
+                if(label == "bug"){         //for BUG
+                    labelText1 = "BUG"
+                    labelStyle1 = "text-[#EF4444] font-semibold bg-[#FEECEC] px-3 rounded-2xl border-2 border-[#FECACA]"
+                    labelArtClass1 = "fa-solid fa-bug"
+                    labelArtStyle1 = "color: #ef4444;"
+                }
+                else if(label == "help wanted") {       //for help wanted
+                    labelText2 = "HELP WANTED"
+                    labelStyle2 = "text-[#D97706] font-semibold bg-[#FFF8DB] px-3 rounded-2xl border-2 border-[#FDE68A]"
+                    labelArtClass2 = "fa-solid fa-life-ring"
+                    labelArtStyle2 = "color: #d97706;"
+                }
+                else if (label == "enhancement") {      //for enhancement
+                    labelText3 = "ENHANCEMENT"
+                    labelStyle3 = "text-[#00A96E] font-semibold bg-[#DEFCE8] px-3 rounded-2xl border-2 border-[#BBF7D0]"
+                    labelArtClass3 = "fa-solid fa-wand-sparkles"
+                    labelArtStyle3 = "color: #00a96e;"
+                } 
+            }
+        }
+        cardLabels() // returns some label
+
+        //author
+        let cardAuthor = dataRaw.data[i].author     //text
+        console.log(cardAuthor)
+        //Created at
+        let cardDate = dataRaw.data[i].createdAt
+        console.log(cardDate)
+
+        //Card Creation!
+        let cardDiv = document.createElement('div')
+        //card Editing!
+        cardDiv.innerHTML = `
+            <div class="${topColor}">
+            <div class="flex justify-between">
+                <img src="${statusImg}" alt="">
+                <p class="${priorityClass}">${cardPriority.toUpperCase()}</p>
+            </div>
+            <div class="mt-3">
+                <h3 class="font-semibold mb-2 text-lg">${cardTitle}</h3>
+                <p class="text-[#64748B]">${cardDes}</p>
+            </div>
+            <div class="flex gap-3 mt-3">
+                <p class="${labelStyle1}"><i class="${labelArtClass1}" style="${labelArtStyle1}"></i> ${labelText1}</p>
+                <p class="${labelStyle2}"><i class="${labelArtClass2}" style="${labelArtStyle2}"></i> ${labelText2}</p>
+                <p class="${labelStyle3}"><i class="${labelArtClass3}" style="${labelArtStyle3}"></i> ${labelText3}</p>
+            </div>
+            <hr class="mt-4 border-gray-300 border mb-4">
+            <div>
+                <p class="text-[#64748B]">#${cardId} by ${cardAuthor}</p>
+                <p class="text-[#64748B]">${cardDate}</p>
+            </div>
+        </div>
+        `
+        //Card Append!!!
+        //s-1 select location to add
+        // let cardContainer = document.getElementById('card-container')
+        //s-2 append!
+        cardContainer.appendChild(cardDiv)
+    }
+        }
+    })
+}
+
+//show if Open clicked
+    let openBtn = document.getElementById('open-btn')
+    openBtn.addEventListener("click",() => {
+        console.log("open clicked!")
+        button[0].classList.remove("btn-primary")
+        button[1].classList.remove("btn-primary")
+        button[2].classList.remove("btn-primary")
+        cardContainer.innerHTML = " "
+        openBtn.classList.add("btn-primary")
+        ississueCounter.innerText = "44"
+        loadOpenIssues()
+    })
+
+
+// Close Issues!!!!!!!!!!!!!!!!!!!!!!
+
+
+function loadClosedIssues ()  {
+fetch(apiUrlAll)
+    .then((response) => response.json())
+    .then((dataRaw) => {
+        //loop!
+        for(let i=0; i<dataRaw.data.length; i++){
+            if(dataRaw.data[i].status == "closed"){
+                console.log("nanaa")
+        //id no
+        let cardId = dataRaw.data[i].id
+        console.log(cardId)
+        // title
+        let cardTitle = dataRaw.data[i].title       //text
+        console.log(cardTitle)
+        // description
+        let cardDes = dataRaw.data[i].description      //text
+        console.log(cardDes)
+        // status
+        let cardStatus = dataRaw.data[i].status     //open or close text
+        let topColor = ""
+        let statusImg = ""
+        if(cardStatus == "open"){
+            topColor = "shadow-lg rounded-md border-t-5 border-[#00A96E] p-4"
+            statusImg = "./assets/Open-Status.png"
+        }
+        else if (cardStatus == "closed"){
+            topColor = "shadow-lg rounded-md border-t-5 border-[#A855F7] p-4"
+            statusImg = "./assets/Closed- Status .png"
+        }
+        // priority
+        let cardPriority = dataRaw.data[i].priority     //high or low or medium text
+        let priorityClass = ""
+        if(cardPriority == "high"){
+            priorityClass = "text-[#EF4444] bg-[#FEECEC] px-4 rounded-xl"
+            console.log(priorityClass)
+        }
+        else if(cardPriority == "medium"){
+            priorityClass = "text-[#F59E0B] bg-[#FFF6D1] px-4 rounded-xl"
+        }
+        else if(cardPriority == "low"){
+            priorityClass = "text-[#9CA3AF] bg-[#EEEFF2] px-4 rounded-xl"
+        }
+
+        // !! labels !!array
+        let labelText1 = ""
+        let labelStyle1 = ""
+        let labelArtClass1 = ""
+        let labelArtStyle1 = ""
+
+        let labelText2 = ""
+        let labelStyle2 = ""
+        let labelArtClass2 = ""
+        let labelArtStyle2 = ""
+
+        let labelText3 = ""
+        let labelStyle3 = ""
+        let labelArtClass3 = ""
+        let labelArtStyle3 = ""
+
+        let cardLabels = () => {
+            for(let label of dataRaw.data[i].labels){
+                if(label == "bug"){         //for BUG
+                    labelText1 = "BUG"
+                    labelStyle1 = "text-[#EF4444] font-semibold bg-[#FEECEC] px-3 rounded-2xl border-2 border-[#FECACA]"
+                    labelArtClass1 = "fa-solid fa-bug"
+                    labelArtStyle1 = "color: #ef4444;"
+                }
+                else if(label == "help wanted") {       //for help wanted
+                    labelText2 = "HELP WANTED"
+                    labelStyle2 = "text-[#D97706] font-semibold bg-[#FFF8DB] px-3 rounded-2xl border-2 border-[#FDE68A]"
+                    labelArtClass2 = "fa-solid fa-life-ring"
+                    labelArtStyle2 = "color: #d97706;"
+                }
+                else if (label == "enhancement") {      //for enhancement
+                    labelText3 = "ENHANCEMENT"
+                    labelStyle3 = "text-[#00A96E] font-semibold bg-[#DEFCE8] px-3 rounded-2xl border-2 border-[#BBF7D0]"
+                    labelArtClass3 = "fa-solid fa-wand-sparkles"
+                    labelArtStyle3 = "color: #00a96e;"
+                } 
+            }
+        }
+        cardLabels() // returns some label
+
+        //author
+        let cardAuthor = dataRaw.data[i].author     //text
+        console.log(cardAuthor)
+        //Created at
+        let cardDate = dataRaw.data[i].createdAt
+        console.log(cardDate)
+
+        //Card Creation!
+        let cardDiv = document.createElement('div')
+        //card Editing!
+        cardDiv.innerHTML = `
+            <div class="${topColor}">
+            <div class="flex justify-between">
+                <img src="${statusImg}" alt="">
+                <p class="${priorityClass}">${cardPriority.toUpperCase()}</p>
+            </div>
+            <div class="mt-3">
+                <h3 class="font-semibold mb-2 text-lg">${cardTitle}</h3>
+                <p class="text-[#64748B]">${cardDes}</p>
+            </div>
+            <div class="flex gap-3 mt-3">
+                <p class="${labelStyle1}"><i class="${labelArtClass1}" style="${labelArtStyle1}"></i> ${labelText1}</p>
+                <p class="${labelStyle2}"><i class="${labelArtClass2}" style="${labelArtStyle2}"></i> ${labelText2}</p>
+                <p class="${labelStyle3}"><i class="${labelArtClass3}" style="${labelArtStyle3}"></i> ${labelText3}</p>
+            </div>
+            <hr class="mt-4 border-gray-300 border mb-4">
+            <div>
+                <p class="text-[#64748B]">#${cardId} by ${cardAuthor}</p>
+                <p class="text-[#64748B]">${cardDate}</p>
+            </div>
+        </div>
+        `
+        //Card Append!!!
+        //s-1 select location to add
+        // let cardContainer = document.getElementById('card-container')
+        //s-2 append!
+        cardContainer.appendChild(cardDiv)
+    }
+        }
+    })
+}
+
+//show if Open clicked
+    let closedBtn = document.getElementById('closed-btn')
+    closedBtn.addEventListener("click",() => {
+        console.log("close clicked!")
+        button[0].classList.remove("btn-primary")
+        button[1].classList.remove("btn-primary")
+        button[2].classList.remove("btn-primary")
+        cardContainer.innerHTML = " "
+        closedBtn.classList.add("btn-primary")
+        ississueCounter.innerText = "6"
+        loadClosedIssues()
+    })
