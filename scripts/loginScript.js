@@ -10,7 +10,7 @@ loginBtn.addEventListener("click", () =>{
 
     //verify upon click!
     if(userId.value == "admin" && pass.value == "admin123"){
-        window.location.assign("/home.html")
+        window.location.assign("./home.html")
     }
     else alert("Wrong Credentials!")
 })
