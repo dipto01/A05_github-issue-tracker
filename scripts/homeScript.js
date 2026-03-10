@@ -25,39 +25,7 @@ function loadingToggle (status) {
     }
 }
 
-function loadWordDetail(id){
-    console.log(id)
-    let singleUrl = `https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`
-    // fetch(singleUrl)
-    //     .then((res) => res.json())
-    //     .then((singleData) => {
-    //         //id no
-    //     let cardId = dataRaw.data[i].id
 
-    //     // title
-    //     let cardTitle = dataRaw.data[i].title       //text
-
-    //     // description
-    //     let cardDes = dataRaw.data[i].description      //text
-
-    //     })
-    //     // priority
-    //     let cardPriority = dataRaw.data[i].priority     //high or low or medium text
-
-    //     // !! labels !!array
-    //     dataRaw.data[i].labels
-
-    //     //assignee
-    //     let cardAuthor = dataRaw.data[i].assignee     //text
-
-    //     //Created at
-    //     let cardDate = dataRaw.data[i].createdAt
-
-
-    // get modal
-    let modal = document.getElementById('my_modal_5')
-    modal.showModal()
-}
 
 // API
 let apiUrlAll = "https://phi-lab-server.vercel.app/api/v1/lab/issues"
@@ -315,7 +283,7 @@ fetch(apiUrlAll)
         let cardDiv = document.createElement('div')
         //card Editing!
         cardDiv.innerHTML = `
-            <div class="${topColor}" onclick="my_modal_5.showModal()">
+            <div class="${topColor}" onclick="loadWordDetail(${cardId})">
             <div class="flex justify-between">
                 <img src="${statusImg}" alt="">
                 <p class="${priorityClass}">${cardPriority.toUpperCase()}</p>
@@ -459,7 +427,7 @@ fetch(apiUrlAll)
         let cardDiv = document.createElement('div')
         //card Editing!
         cardDiv.innerHTML = `
-            <div class="${topColor}" onclick="my_modal_5.showModal()">
+            <div class="${topColor}" onclick="loadWordDetail(${cardId})">
             <div class="flex justify-between">
                 <img src="${statusImg}" alt="">
                 <p class="${priorityClass}">${cardPriority.toUpperCase()}</p>
@@ -509,4 +477,114 @@ fetch(apiUrlAll)
 
     // --------------Modal Codes-------------//
 
-fetch()
+function loadWordDetail(id){
+    console.log(id)
+    let singleUrl = `https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`
+    fetch(singleUrl)
+        .then((res) => res.json())
+        .then((singleData) => {
+        // title
+        let modalTitle = singleData.data.title       //text
+            console.log(modalTitle)
+        // description
+        let modalDes = singleData.data.description      //text
+            console.log(modalDes)
+        
+        // priority
+        let modalPriority = singleData.data.priority     //high or low or medium text
+            console.log(modalPriority)
+            let priorityClass = ""
+        if(modalPriority == "high"){
+            priorityClass = "text-[#EF4444] bg-[#FEECEC] px-4 rounded-xl"
+
+        }
+        else if(modalPriority == "medium"){
+            priorityClass = "text-[#F59E0B] bg-[#FFF6D1] px-4 rounded-xl"
+        }
+        else if(modalPriority == "low"){
+            priorityClass = "text-[#9CA3AF] bg-[#EEEFF2] px-4 rounded-xl"
+        }
+        // !! labels !!array
+        let labelText1 = ""
+        let labelStyle1 = ""
+        let labelArtClass1 = ""
+        let labelArtStyle1 = ""
+
+        let labelText2 = ""
+        let labelStyle2 = ""
+        let labelArtClass2 = ""
+        let labelArtStyle2 = ""
+
+        let labelText3 = ""
+        let labelStyle3 = ""
+        let labelArtClass3 = ""
+        let labelArtStyle3 = ""
+
+        let modalLabels = () => {
+            for(let label of singleData.data.labels){
+                if(label == "bug"){         //for BUG
+                    labelText1 = "BUG"
+                    labelStyle1 = "text-[#EF4444] font-semibold bg-[#FEECEC] px-3 rounded-2xl border-2 border-[#FECACA]"
+                    labelArtClass1 = "fa-solid fa-bug"
+                    labelArtStyle1 = "color: #ef4444;"
+                }
+                else if(label == "help wanted") {       //for help wanted
+                    labelText2 = "HELP WANTED"
+                    labelStyle2 = "text-[#D97706] font-semibold bg-[#FFF8DB] px-3 rounded-2xl border-2 border-[#FDE68A]"
+                    labelArtClass2 = "fa-solid fa-life-ring"
+                    labelArtStyle2 = "color: #d97706;"
+                }
+                else if (label == "enhancement") {      //for enhancement
+                    labelText3 = "ENHANCEMENT"
+                    labelStyle3 = "text-[#00A96E] font-semibold bg-[#DEFCE8] px-3 rounded-2xl border-2 border-[#BBF7D0]"
+                    labelArtClass3 = "fa-solid fa-wand-sparkles"
+                    labelArtStyle3 = "color: #00a96e;"
+                } 
+            }
+        }
+        modalLabels() // returns some label
+        //author
+        let modalAuthor = singleData.data.author     //text
+            console.log(modalAuthor)
+        //assignee
+        let modalAssignee = singleData.data.assignee     //text
+            console.log(modalAssignee)
+        //Created at
+        let modalDate = singleData.data.createdAt
+            console.log(modalDate)
+
+        //-----------Modal Editing----------
+        let modalBox = document.getElementById('modal_box')
+
+        modalBox.innerHTML = `
+            <h3 class="text-[24px] font-bold">${modalTitle}</h3>
+            <p class="my-2 text-[#64748B]">#${id} ${modalAuthor} : ${modalDate}</p>
+            <div class="flex gap-3 mt-3">
+                <p class="${labelStyle1}"><i class="${labelArtClass1}" style="${labelArtStyle1}"></i> ${labelText1}</p>
+                <p class="${labelStyle2}"><i class="${labelArtClass2}" style="${labelArtStyle2}"></i> ${labelText2}</p>
+                <p class="${labelStyle3}"><i class="${labelArtClass3}" style="${labelArtStyle3}"></i> ${labelText3}</p>
+            </div>
+            <p class="my-2 text-[#64748B]">${modalDes}</p>
+            <div class="flex gap-24 bg-[#F8FAFC] p-4 rounded-xl">
+                <div>
+                    <p class="text-[#64748B]">Assignee:</p>
+                    <p class="font-bold">${modalAssignee}</p>
+                </div>
+                <div>
+                    <p>Priority:</p>
+                    <p class="${priorityClass}">${modalPriority.toUpperCase()}</p>
+                </div>
+            </div>
+            <div class="modal-action">
+            <form method="dialog">
+                <!-- if there is a button in form, it will close the modal -->
+                <button class="btn btn-primary">Close</button>
+            </form>
+            </div>
+        `
+
+})
+    // click open modal
+    let modal = document.getElementById('my_modal_5')
+    modal.showModal()
+}
