@@ -82,7 +82,39 @@
         <!-- Card! -->
     </section>
 
-
+    <section>
+<!-- Modal! -->
+                <!-- Open the modal using ID.showModal() method -->
+        <!-- <button class="btn" onclick="my_modal_5.showModal()">open modal</button> -->
+        <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box">
+            <h3 class="text-[24px] font-bold">Fix broken image uploads</h3>
+            <p class="my-2 text-[#64748B]">by john_doe : 2024-01-15T10:30:00Z</p>
+            <div class="flex gap-3 mt-3">
+                <p class="text-[#EF4444] font-semibold bg-[#FEECEC] px-3 rounded-2xl border-2 border-[#FECACA]"><i class="fa-solid fa-bug" style="color: #ef4444;"></i> BUG</p>
+                <p class="text-[#EF4444] font-semibold bg-[#FEECEC] px-3 rounded-2xl border-2 border-[#FECACA]"><i class="fa-solid fa-bug" style="color: #ef4444;"></i> BUG</p>
+            </div>
+            <p class="my-2 text-[#64748B]">The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.</p>
+            <div class="flex gap-24 bg-[#F8FAFC] p-4 rounded-xl">
+                <div>
+                    <p class="text-[#64748B]">Assignee:</p>
+                    <p class="font-bold">Fahim Ahmed</p>
+                </div>
+                <div>
+                    <p>Priority:</p>
+                    <p class="text-[#EF4444] bg-[#FEECEC] px-4 rounded-xl">HIGH</p>
+                </div>
+            </div>
+            <div class="modal-action">
+            <form method="dialog">
+                <!-- if there is a button in form, it will close the modal -->
+                <button class="btn btn-primary">Close</button>
+            </form>
+            </div>
+        </div>
+        </dialog>
+<!-- Modal... -->
+    </section>
 
     <!-- Js connection -->
     <script src="./scripts/homeScript.js"></script>

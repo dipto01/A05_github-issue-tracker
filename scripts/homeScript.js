@@ -25,6 +25,40 @@ function loadingToggle (status) {
     }
 }
 
+function loadWordDetail(id){
+    console.log(id)
+    let singleUrl = `https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`
+    // fetch(singleUrl)
+    //     .then((res) => res.json())
+    //     .then((singleData) => {
+    //         //id no
+    //     let cardId = dataRaw.data[i].id
+
+    //     // title
+    //     let cardTitle = dataRaw.data[i].title       //text
+
+    //     // description
+    //     let cardDes = dataRaw.data[i].description      //text
+
+    //     })
+    //     // priority
+    //     let cardPriority = dataRaw.data[i].priority     //high or low or medium text
+
+    //     // !! labels !!array
+    //     dataRaw.data[i].labels
+
+    //     //assignee
+    //     let cardAuthor = dataRaw.data[i].assignee     //text
+
+    //     //Created at
+    //     let cardDate = dataRaw.data[i].createdAt
+
+
+    // get modal
+    let modal = document.getElementById('my_modal_5')
+    modal.showModal()
+}
+
 // API
 let apiUrlAll = "https://phi-lab-server.vercel.app/api/v1/lab/issues"
 
@@ -122,7 +156,7 @@ fetch(apiUrlAll)
         let cardDiv = document.createElement('div')
         //card Editing!
         cardDiv.innerHTML = `
-            <div class="${topColor}">
+            <div class="${topColor}" onclick="loadWordDetail(${cardId})">
             <div class="flex justify-between">
                 <img src="${statusImg}" alt="">
                 <p class="${priorityClass}">${cardPriority.toUpperCase()}</p>
@@ -281,7 +315,7 @@ fetch(apiUrlAll)
         let cardDiv = document.createElement('div')
         //card Editing!
         cardDiv.innerHTML = `
-            <div class="${topColor}">
+            <div class="${topColor}" onclick="my_modal_5.showModal()">
             <div class="flex justify-between">
                 <img src="${statusImg}" alt="">
                 <p class="${priorityClass}">${cardPriority.toUpperCase()}</p>
@@ -327,9 +361,7 @@ fetch(apiUrlAll)
         loadOpenIssues()
     })
 
-
 // Close Issues!!!!!!!!!!!!!!!!!!!!!!
-
 
 function loadClosedIssues ()  {
     //add loading
@@ -427,7 +459,7 @@ fetch(apiUrlAll)
         let cardDiv = document.createElement('div')
         //card Editing!
         cardDiv.innerHTML = `
-            <div class="${topColor}">
+            <div class="${topColor}" onclick="my_modal_5.showModal()">
             <div class="flex justify-between">
                 <img src="${statusImg}" alt="">
                 <p class="${priorityClass}">${cardPriority.toUpperCase()}</p>
@@ -472,3 +504,9 @@ fetch(apiUrlAll)
         ississueCounter.innerText = "6"
         loadClosedIssues()
     })
+
+
+
+    // --------------Modal Codes-------------//
+
+fetch()
