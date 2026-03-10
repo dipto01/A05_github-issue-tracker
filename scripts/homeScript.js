@@ -1,18 +1,36 @@
 console.log("Js connected!")
-
-
-
+//issue counter
 let ississueCounter = document.getElementById('issueCounter')
 ississueCounter.innerText = "0"
 
+//buttons tab
 let button = document.getElementsByClassName('button')
 
+// card container
 let cardContainer = document.getElementById('card-container')
 
+// loading bar
+let loading = document.getElementById('loading')
+console.log(loading.classList)
+loading.classList.remove('hidden')
 
+function loadingToggle (status) {
+    if(status == true){
+        loading.classList.remove('hidden')
+        cardContainer.classList.add('hidden')
+    }
+    else{
+        loading.classList.add('hidden')
+        cardContainer.classList.remove('hidden')
+    }
+}
+
+// API
 let apiUrlAll = "https://phi-lab-server.vercel.app/api/v1/lab/issues"
 
 function loadAllIssues ()  {
+    //add loading
+    loadingToggle(true)
 fetch(apiUrlAll)
     .then((response) => response.json())
     .then((dataRaw) => {
@@ -20,13 +38,13 @@ fetch(apiUrlAll)
         for(let i=0; i<dataRaw.data.length; i++){
         //id no
         let cardId = dataRaw.data[i].id
-        console.log(cardId)
+
         // title
         let cardTitle = dataRaw.data[i].title       //text
-        console.log(cardTitle)
+
         // description
         let cardDes = dataRaw.data[i].description      //text
-        console.log(cardDes)
+
         // status
         let cardStatus = dataRaw.data[i].status     //open or close text
         let topColor = ""
@@ -44,7 +62,7 @@ fetch(apiUrlAll)
         let priorityClass = ""
         if(cardPriority == "high"){
             priorityClass = "text-[#EF4444] bg-[#FEECEC] px-4 rounded-xl"
-            console.log(priorityClass)
+
         }
         else if(cardPriority == "medium"){
             priorityClass = "text-[#F59E0B] bg-[#FFF6D1] px-4 rounded-xl"
@@ -95,10 +113,10 @@ fetch(apiUrlAll)
 
         //author
         let cardAuthor = dataRaw.data[i].author     //text
-        console.log(cardAuthor)
+
         //Created at
         let cardDate = dataRaw.data[i].createdAt
-        console.log(cardDate)
+
 
         //Card Creation!
         let cardDiv = document.createElement('div')
@@ -132,6 +150,8 @@ fetch(apiUrlAll)
         cardContainer.appendChild(cardDiv)
         }
     })
+    //done loading!
+    loadingToggle(false)
 }
 
 
@@ -166,6 +186,8 @@ document.addEventListener("DOMContentLoaded", allShow)
 
 
 function loadOpenIssues ()  {
+    //add loading
+    loadingToggle(true)
 fetch(apiUrlAll)
     .then((response) => response.json())
     .then((dataRaw) => {
@@ -175,13 +197,13 @@ fetch(apiUrlAll)
                 console.log("haha")
         //id no
         let cardId = dataRaw.data[i].id
-        console.log(cardId)
+
         // title
         let cardTitle = dataRaw.data[i].title       //text
-        console.log(cardTitle)
+
         // description
         let cardDes = dataRaw.data[i].description      //text
-        console.log(cardDes)
+
         // status
         let cardStatus = dataRaw.data[i].status     //open or close text
         let topColor = ""
@@ -199,7 +221,7 @@ fetch(apiUrlAll)
         let priorityClass = ""
         if(cardPriority == "high"){
             priorityClass = "text-[#EF4444] bg-[#FEECEC] px-4 rounded-xl"
-            console.log(priorityClass)
+
         }
         else if(cardPriority == "medium"){
             priorityClass = "text-[#F59E0B] bg-[#FFF6D1] px-4 rounded-xl"
@@ -250,10 +272,10 @@ fetch(apiUrlAll)
 
         //author
         let cardAuthor = dataRaw.data[i].author     //text
-        console.log(cardAuthor)
+
         //Created at
         let cardDate = dataRaw.data[i].createdAt
-        console.log(cardDate)
+
 
         //Card Creation!
         let cardDiv = document.createElement('div')
@@ -288,6 +310,8 @@ fetch(apiUrlAll)
     }
         }
     })
+    //done loading!
+    loadingToggle(false)
 }
 
 //show if Open clicked
@@ -308,6 +332,8 @@ fetch(apiUrlAll)
 
 
 function loadClosedIssues ()  {
+    //add loading
+    loadingToggle(true)
 fetch(apiUrlAll)
     .then((response) => response.json())
     .then((dataRaw) => {
@@ -317,13 +343,13 @@ fetch(apiUrlAll)
                 console.log("nanaa")
         //id no
         let cardId = dataRaw.data[i].id
-        console.log(cardId)
+
         // title
         let cardTitle = dataRaw.data[i].title       //text
-        console.log(cardTitle)
+
         // description
         let cardDes = dataRaw.data[i].description      //text
-        console.log(cardDes)
+
         // status
         let cardStatus = dataRaw.data[i].status     //open or close text
         let topColor = ""
@@ -341,7 +367,7 @@ fetch(apiUrlAll)
         let priorityClass = ""
         if(cardPriority == "high"){
             priorityClass = "text-[#EF4444] bg-[#FEECEC] px-4 rounded-xl"
-            console.log(priorityClass)
+
         }
         else if(cardPriority == "medium"){
             priorityClass = "text-[#F59E0B] bg-[#FFF6D1] px-4 rounded-xl"
@@ -392,10 +418,10 @@ fetch(apiUrlAll)
 
         //author
         let cardAuthor = dataRaw.data[i].author     //text
-        console.log(cardAuthor)
+
         //Created at
         let cardDate = dataRaw.data[i].createdAt
-        console.log(cardDate)
+
 
         //Card Creation!
         let cardDiv = document.createElement('div')
@@ -430,9 +456,11 @@ fetch(apiUrlAll)
     }
         }
     })
+    //done loading!
+    loadingToggle(false)
 }
 
-//show if Open clicked
+//show if Closed clicked
     let closedBtn = document.getElementById('closed-btn')
     closedBtn.addEventListener("click",() => {
         console.log("close clicked!")
